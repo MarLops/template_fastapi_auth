@@ -10,7 +10,7 @@ USERDATABASE = UserDatabase(PATH_USERDATABASE)
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 security = HTTPBasic()
 
-def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
+async def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
     try:
         user = USERDATABASE.get_user(credentials.username,credentials.password)
         if user is not None:
@@ -45,7 +45,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = create_token(user)
     return {"access_token": access_token, "token_type": "bearer"}
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         return recove_from_token(token)
     except Exception as e:

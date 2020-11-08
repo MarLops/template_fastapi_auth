@@ -10,7 +10,7 @@ app = FastAPI(title={{cookiecutter.project_name}},
               version={{cookiecutter.version}})
 
 
-{% if cokkiecutter.security == 'JWT' %}
+{% if cookiecutter.security == 'JWT' %}
 from .src.auth.enpoints import app_security
 
 app.mount('/auth',app_security)
