@@ -1,8 +1,8 @@
 import configparser
 from fastapi import FastAPI, Depends,HTTPException,status
-from .src.database.own_database import DB_Example
-from .src.database.utils import create_acess_database
-from .src.auth.enpoints import get_current_user
+from src.database.own_database import DB_Example
+from src.database.utils import create_acess_database
+from src.auth.enpoints import get_current_user
 
 PATH_DB = ""
 
@@ -27,7 +27,7 @@ async def startup_event():
 Example
 
 @app.get("/{key}")
-async def get_product(key, str: user = Dependes(get_current_user)):
+async def get_product(key: str, user = Dependes(get_current_user)):
     if DB is not None:
         return DB.get_by_key(key)
     raise HTTPException(

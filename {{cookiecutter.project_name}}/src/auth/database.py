@@ -15,7 +15,9 @@ class UserDatabase:
         if name in self._database:
             user = self._database[name]
             if (user['password'] == password):
-                return UserView(**user)
+                return UserView(name=user["username"],
+                                full_name=user["full_name"],
+                                email=user["email"])
         return None
 
     

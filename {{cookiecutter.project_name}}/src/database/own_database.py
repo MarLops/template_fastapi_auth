@@ -22,7 +22,6 @@ class DB_Example(DB):
     def post(self,data: Data):
         self._database.update(data["id"],data['data'])
 
-
     def get_by_key(self,key):
         if key in self._database:
             return self._database[key]
