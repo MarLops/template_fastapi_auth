@@ -1,8 +1,9 @@
 {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "password": "teste"
+    "{{cookiecutter.user}}": {
+        "username": "{{cookiecutter.user}}",
+        "full_name": "{{cookiecutter.full_name}}",
+        "email": "{{cookiecutter.email}}",
+        "password": "{{cookiecutter.password}}",
+        "permition": "admin"
     }
 }

@@ -1,20 +1,18 @@
 import configparser
 from fastapi import FastAPI, Depends,HTTPException,status
-from src.database.own_database import DB_Example
-from src.database.utils import create_acess_database
+from src.database.database import create_acess_database
 from src.auth.enpoints import get_current_user
+from src.auth.enpoints import app_security
+config = configparser.ConfigParser()
+config.read('settings.ini')
 
-PATH_DB = ""
+PATH_DB = config.get('Path_db')
 
 app = FastAPI(title='{{cookiecutter.project_name}}',
               version='{{cookiecutter.version}}')
 
 
-{% if cookiecutter.security == 'JWT' %}
-from .src.auth.enpoints import app_security
-
-app.mount('/auth',app_security)
-{% endif %}
+app.include_router(app_security,prefix='',tags=['User'])
 
 DB = None
 
@@ -24,10 +22,10 @@ async def startup_event():
     DB = create_acess_database(PATH_DB)
 
 """
-Example
+#Example
 
 @app.get("/{key}")
-async def get_product(key: str, user = Dependes(get_current_user)):
+async def get_product(key: str, user = Depends(get_current_user)):
     if DB is not None:
         return DB.get_by_key(key)
     raise HTTPException(

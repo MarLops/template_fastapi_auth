@@ -39,3 +39,24 @@ class DB_Example(DB):
     def __del__(self):
         with open(self._path_db, 'w') as myfile:
             myfile.write(json.dumps(self._database))
+
+
+class DB_OWN(DB):
+    def post(self,data: Data):
+       ...
+
+    def get_by_key(self,key):
+       ...
+
+    def delete_by_key(self,key):
+        ...
+
+    def __iter__(self):
+        ...
+
+    def __del__(self):
+        ...
+
+
+def create_acess_database(path):
+    return DB_Example(path)

@@ -14,9 +14,5 @@ class DB(ABC):
         ...
 
     @abstractmethod
-    def __getitem__(self,pos):
-        ...
-
-    @abstractmethod
     def __iter__(self):
         ...

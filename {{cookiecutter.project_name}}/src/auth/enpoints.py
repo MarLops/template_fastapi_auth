@@ -1,10 +1,17 @@
 import configparser
-from fastapi import Depends, HTTPException, status
-from .usermodel import UserView
-from .database import UserDatabase
+from fastapi import Depends, HTTPException, status,APIRouter
+from pydantic import BaseModel
+from .usermodel import UserView, User
+from .database import UserDatabase,get_database
 
-PATH_USERDATABASE = ""
-USERDATABASE = UserDatabase(PATH_USERDATABASE)
+config = configparser.ConfigParser()
+config.example('settings.ini')
+
+PATH_USERDATABASE = config.get('Path_userdatabase')
+USERDATABASE = get_database(PATH_USERDATABASE)
+
+app_security = APIRouter()
+
 
 {% if cookiecutter.security == 'Basic'%}
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -30,10 +37,14 @@ async def get_current_user(credentials: HTTPBasicCredentials = Depends(security)
 from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from .utlis import create_token, recove_from_token
-app_security = FastAPI()
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-@app_security.post("/token")
+@app_security.post("/token",response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = USERDATABASE.get_user(form_data.username, form_data.password)
     if not user or user is None:
@@ -57,40 +68,20 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
 {% endif %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@app_security.post("user/add",description="Add new user")
+async def add_user(new_user: User, user = Depends(get_current_user)):
+    try:
+        if user["permition"] == "admin":
+            USERDATABASE.post(user)
+        else:
+            credentials_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Only user with permition admin can add user")
+            raise credentials_exception
+    except Exception as e:
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) 
+        raise credentials_exception

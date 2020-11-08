@@ -5,13 +5,14 @@ class User(BaseModel):
     password: str
     email: str
     full_name:  str
-    hashed_password: str
-    disabled: str
+    password: str
+    admin: bool
 
 
 class UserView(BaseModel):
     name: str
     full_name: str
     email: str
+    permition: str
 
 
