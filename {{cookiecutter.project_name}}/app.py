@@ -6,8 +6,8 @@ from .src.auth.enpoints import get_current_user
 
 PATH_DB = ""
 
-app = FastAPI(title={{cookiecutter.project_name}},
-              version={{cookiecutter.version}})
+app = FastAPI(title='{{cookiecutter.project_name}}',
+              version='{{cookiecutter.version}}')
 
 
 {% if cookiecutter.security == 'JWT' %}
