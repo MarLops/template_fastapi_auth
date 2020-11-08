@@ -10,6 +10,11 @@ class UserDatabase(DBUser):
         if os.path.exists(path_json):
             with open(path_json, 'r') as myfile:
                 self._database = json.loads(myfile.read())
+        elif os.path.exists(os.path.join(os.getcwd(),path_json)):
+            path_json = os.path.join(os.getcwd(),path_json)
+            with open(path_json, 'r') as myfile:
+                self._database = json.loads(myfile.read())
+            self._path = path_json
         else:
             raise Exception("There is not a database")
 
@@ -20,18 +25,19 @@ class UserDatabase(DBUser):
                 return UserView(name=user["username"],
                                 full_name=user["full_name"],
                                 email=user["email"],
-                                permition=user["permition"]])
+                                permition=user["permition"])
         return None
     
     def post(self,user: User):
-        self._database.update(user["name"],user.dict())
-
-    def __del__(self):
+        user_dict = user.dict()
+        self._database[user_dict["name"]] = user_dict
         if os.path.exists(self._path):
             with open(self._path, 'w') as myfile:
-               myfile.write(json.dump(self._database))
-        del self
+               myfile.write(json.dumps(self._database))
+        return True
 
+
+        
 
 class PersonalDatabase(DBUser):
     def get_user(self, key):

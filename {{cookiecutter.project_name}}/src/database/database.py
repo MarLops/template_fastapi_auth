@@ -16,6 +16,11 @@ class DB_Example(DB):
         if os.path.exists(path_db):
             with open(path_db, 'r') as myfile:
                 self._database = json.loads(myfile.read())
+        elif os.path.exists(os.path.join(os.getcwd(),path_db)):
+            path_db = os.path.join(os.getcwd(),path_db)
+            with open(path_db, 'r') as myfile:
+                self._database = json.loads(myfile.read())
+            self._path = path_db
         else:
             raise Exception("There is not a database")
     

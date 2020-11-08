@@ -6,7 +6,7 @@ class User(BaseModel):
     email: str
     full_name:  str
     password: str
-    admin: bool
+    permition: str
 
 
 class UserView(BaseModel):

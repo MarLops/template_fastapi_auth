@@ -6,7 +6,7 @@ from src.auth.enpoints import app_security
 config = configparser.ConfigParser()
 config.read('settings.ini')
 
-PATH_DB = config.get('Path_db')
+PATH_DB = config.get("DEFAULT",'Path_db')
 
 app = FastAPI(title='{{cookiecutter.project_name}}',
               version='{{cookiecutter.version}}')

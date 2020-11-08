@@ -1,4 +1,4 @@
-{% if cookiecutter.secure == 'JWT' %}
+{% if cookiecutter.security == 'JWT' %}
 import configparser
 from datetime import datetime, timedelta
 from jose import JWTError, jwt

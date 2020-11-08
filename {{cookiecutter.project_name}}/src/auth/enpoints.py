@@ -5,9 +5,9 @@ from .usermodel import UserView, User
 from .database import UserDatabase,get_database
 
 config = configparser.ConfigParser()
-config.example('settings.ini')
+config.read('settings.ini')
 
-PATH_USERDATABASE = config.get('Path_userdatabase')
+PATH_USERDATABASE = config.get('DEFAULT','Path_userdatabase')
 USERDATABASE = get_database(PATH_USERDATABASE)
 
 app_security = APIRouter()
@@ -68,11 +68,14 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
 {% endif %}
 
-@app_security.post("user/add",description="Add new user")
+@app_security.post("/user/add",description="Add new user")
 async def add_user(new_user: User, user = Depends(get_current_user)):
     try:
         if user["permition"] == "admin":
-            USERDATABASE.post(user)
+            result = USERDATABASE.post(new_user)
+            if result:
+                return "Add"
+            return "Not Add"
         else:
             credentials_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
