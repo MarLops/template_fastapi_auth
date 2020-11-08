@@ -1,0 +1,9 @@
+{
+    "project_name":"Endpoints",
+    "version": ["1.0.0","0.1.0"],
+    "security":["Basic","JWT"],
+    "user": "admin",
+    "email":"admin@admin",
+    "full_name":"admin",
+    "password":"admin"
+}
