@@ -1,6 +1,6 @@
 import configparser
 from fastapi import FastAPI, Depends,HTTPException,status
-from src.database.database import create_acess_database
+from src.database.database import create_acess_database, get_database
 from src.auth.enpoints import get_current_user
 from src.auth.enpoints import app_security
 config = configparser.ConfigParser()
@@ -14,18 +14,16 @@ app = FastAPI(title='{{cookiecutter.project_name}}',
 
 app.include_router(app_security,prefix='',tags=['User'])
 
-DB = None
 
 @app.on_event("startup")
 async def startup_event():
-    global DB
-    DB = create_acess_database(PATH_DB)
+    create_acess_database(PATH_DB)
 
 """
 #Example
 
 @app.get("/{key}")
-async def get_product(key: str, user = Depends(get_current_user)):
+async def get_product(key: str, user = Depends(get_current_user), DB = Depends(get_database)):
     if DB is not None:
         return DB.get_by_key(key)
     raise HTTPException(
