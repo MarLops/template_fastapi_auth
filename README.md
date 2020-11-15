@@ -13,3 +13,6 @@ user = Depends(get_current_user)
 ```
  
 in the argument of function
+
+
+## Middleware
