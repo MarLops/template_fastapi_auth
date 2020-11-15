@@ -1,6 +1,5 @@
 import os
 import json
-
 from pydantic.utils import truncate
 from .interface import DB
 from typing import Dict, Any
@@ -46,29 +45,5 @@ class DB_Example(DB):
             myfile.write(json.dumps(self._database))
 
 
-class DB_OWN(DB):
-    def post(self,data: Data):
-       ...
-
-    def get_by_key(self,key):
-       ...
-
-    def delete_by_key(self,key):
-        ...
-
-    def __iter__(self):
-        ...
-
-    def __del__(self):
-        ...
 
 
-DB_app = None
-
-def create_database(path):
-    global DB_app
-    DB_app = DB_Example(path)
-
-def get_database():
-    global DB_app
-    return DB_app

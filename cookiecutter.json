@@ -6,6 +6,9 @@
     "email":"admin@admin",
     "full_name":"admin",
     "password":"admin",
+    "struct":["router","mount"],
+    "name_tag_or_subendpoint":"subapi",
     "add_midware_time_in_logger": ["True","False"],
     "add_midware_header_in_looger": ["True","False"]
+    
 }
