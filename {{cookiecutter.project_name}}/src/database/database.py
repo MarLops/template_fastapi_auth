@@ -63,5 +63,12 @@ class DB_OWN(DB):
         ...
 
 
-def create_acess_database(path):
-    return DB_Example(path)
+DB_app = None
+
+def create_database(path):
+    global DB_app
+    DB_app = DB_Example(path)
+
+def get_database():
+    global DB_app
+    return DB_app

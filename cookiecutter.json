@@ -1,9 +1,11 @@
 {
     "project_name":"Endpoints",
     "version": ["1.0.0","0.1.0"],
-    "security":["Basic","JWT"],
+    "security":["Basic","JWT","No Auth"],
     "user": "admin",
     "email":"admin@admin",
     "full_name":"admin",
-    "password":"admin"
+    "password":"admin",
+    "add_midware_time_in_logger": ["True","False"],
+    "add_midware_header_in_looger": ["True","False"]
 }
