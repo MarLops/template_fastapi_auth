@@ -38,14 +38,3 @@ class UserDatabase(DBUser):
 
 
         
-
-class PersonalDatabase(DBUser):
-    def get_user(self, key):
-        ...
-
-    def post(self, user: User):
-        ...
-
-    
-def get_database(path):
-    return UserDatabase(path)
