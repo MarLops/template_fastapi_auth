@@ -1,13 +1,13 @@
 import configparser
 from fastapi import FastAPI, Depends,HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
-from src.core.database.main import create_database, get_database
+from .src.core.database.main import create_database, get_database
 {% if cookiecutter.security != 'NO Auth'%}
-from src.core.auth.enpoints import app_security,get_current_user
+from .src.core.auth.enpoints import app_security,get_current_user
 {% endif %}
-from src.core.middleware.main import create_middware
-from src.core.auth.main import create_database_user
-from src.{{cookiecutter.struct}} import sub_app
+from .src.core.middleware.main import create_middware
+from .src.core.auth.main import create_database_user
+from .src.{{cookiecutter.struct}} import sub_app
 
 config = configparser.ConfigParser()
 config.read('settings.ini')

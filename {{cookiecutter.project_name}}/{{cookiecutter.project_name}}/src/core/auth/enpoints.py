@@ -2,7 +2,7 @@ import configparser
 from fastapi import Depends, HTTPException,APIRouter
 from pydantic import BaseModel
 from .usermodel import UserView, User
-from .database import UserDatabase,get_database
+from .database import UserDatabase
 from .main import get_database_user
 
 

@@ -16,6 +16,9 @@ sub_app = FastAPI()
 {% endif %}
 
 
+@sub_app.get("/")
+async def check_work(user = Depends(get_current_user)):
+    return "OK" 
 
 """
 #Example to get database and user name
