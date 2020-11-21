@@ -23,7 +23,6 @@ app.add_middleware(BaseHTTPMiddleware,dispatch=create_middware(config))
 
 @app.on_event("startup")
 async def startup_event():
-    create_database(config)
     path_user_db = config.get('DEFAULT','Path_userdatabase')
     create_database_user(path_user_db)
     path = config.get("DEFAULT",'Path_db')
