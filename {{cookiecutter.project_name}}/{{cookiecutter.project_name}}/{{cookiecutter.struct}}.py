@@ -18,11 +18,6 @@ sub_app = FastAPI()
 {% if cookiecutter.security != 'NO Auth'%}
 @sub_app.get("/")
 async def check_work(user = Depends(get_current_user), db = Depends(get_database)):
-    if user is None:
-        raise HTTPException(
-        status_code=401,
-        detail="No Authorize"
-    )
     return "OK" 
 {% endif %}
 
