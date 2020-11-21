@@ -1,7 +1,7 @@
 import json
 import os
 from typing import List
-from .usermodel import User, UserView
+from .usermodel import FullUser, UserView
 from .interface import DBUser
 
 class UserDatabase(DBUser):
@@ -16,25 +16,32 @@ class UserDatabase(DBUser):
                 self._database = json.loads(myfile.read())
             self._path = path_json
         else:
-            raise Exception("There is not a database")
+            self._database = {"{{cookiecutter.user}}": {
+                                "username": "{{cookiecutter.user}}",
+                                "full_name": "{{cookiecutter.full_name}}",
+                                "email": "{{cookiecutter.email}}",
+                                "password": "{{cookiecutter.password}}",
+                                "permition": "admin"
+                                }}
 
     def get_user(self,name: str, password: str):
         if name in self._database:
             user = self._database[name]
             if (user['password'] == password):
-                return UserView(name=user["username"],
+                return UserView(username=user["username"],
                                 full_name=user["full_name"],
                                 email=user["email"],
                                 permition=user["permition"])
         return None
+
     
-    def post(self,user: User):
+    def post(self,user: FullUser):
         user_dict = user.dict()
-        self._database[user_dict["name"]] = user_dict
+        self._database[user_dict["username"]] = user_dict
         if os.path.exists(self._path):
             with open(self._path, 'w') as myfile:
                myfile.write(json.dumps(self._database))
-        return True
-
+            return UserView(**user.dict())
+        
 
         

@@ -1,6 +1,6 @@
 from requests.auth import HTTPBasicAuth
 from starlette.testclient import TestClient
-from {{cookiecutter.project_name}}.app import app
+from app import app
 
 
 
@@ -33,7 +33,7 @@ def test_get_with_auth():
         response = client.post("/token",data={"username":'{{cookiecutter.user}}',"password":'{{cookiecutter.password}}'})
         assert response.status_code == 200
         token = response.json()["access_token"]
-        response = client.get("/",header={'Authorization': 'Bearer {}'.format(token)})
+        response = client.get("/",headers={'Authorization': 'Bearer {}'.format(token)})
         assert response.status_code == 200
 
 {% endif %}

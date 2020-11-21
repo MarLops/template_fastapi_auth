@@ -1,26 +1,25 @@
 from .database import UserDatabase
 from .interface import DBUser
-from .usermodel import User
+from .usermodel import FullUser, UserView
 
 
-class UserPersonal(User):
+class UserPersonal(UserView):
     ...
 
 class DatabaseUserPersonal(DBUser):
-    def get_user(self, key):
-        ...
+    def get_user(self, key) -> UserPersonal:
+        return UserPersonal()
 
-    def post(self, user: User):
+    def post(self, user: FullUser) -> None:
         ...
 
 
 DB_USER = None
     
-def create_database_user(config):
+def create_database_user(*arg,**kwargs):
     global DB_USER
-    path = config.get('DEFAULT','Path_userdatabase')
-    DB_USER = UserDatabase(path)
+    DB_USER = UserDatabase(*arg)
 
 
-def get_database_user():
+def get_database_user() -> DBUser:
     return DB_USER

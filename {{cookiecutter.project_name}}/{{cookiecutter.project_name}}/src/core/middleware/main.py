@@ -16,5 +16,5 @@ class Middware_Personalite(MiddwareSimple):
 
 
 
-def create_middware(config):
+def create_middware(*args,**kwargs):
     return MiddwareSimple()

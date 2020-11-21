@@ -1,8 +1,7 @@
 import configparser
 from fastapi import Depends, HTTPException,APIRouter
 from pydantic import BaseModel
-from .usermodel import UserView, User
-from .database import UserDatabase
+from .usermodel import FullUser, UserView
 from .main import get_database_user
 
 
@@ -18,7 +17,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 security = HTTPBasic()
 
 async def get_current_user(credentials: HTTPBasicCredentials = Depends(security),
-                            database_user = Depends(get_database_user)):
+                            database_user = Depends(get_database_user)) -> UserView:
     try:
         user = database_user.get_user(credentials.username,credentials.password)
         if user is not None:
@@ -71,7 +70,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 {% endif %}
 
 @app_security.post("/user/add",description="Add new user")
-async def add_user(new_user: User, user = Depends(get_current_user),
+async def add_user(new_user: FullUser, user = Depends(get_current_user),
                     database_user = Depends(get_database_user)):
     try:
         if user["permition"] == "admin":

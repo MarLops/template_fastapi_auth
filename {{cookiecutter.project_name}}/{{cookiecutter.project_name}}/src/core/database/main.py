@@ -22,10 +22,8 @@ class DB_Personate(DB):
   
 DB_app = None
 
-def create_database(config):
-    global DB_app
-    path = config.get("DEFAULT",'Path_db')
-    DB_app = DB_Example(path)
+def create_database(*arg,**kwargs):
+    DB_app = DB_Example(*arg)
 
 def get_database():
     global DB_app
