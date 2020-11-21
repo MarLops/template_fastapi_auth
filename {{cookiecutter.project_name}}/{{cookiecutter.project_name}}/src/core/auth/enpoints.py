@@ -30,7 +30,7 @@ async def get_current_user(credentials: HTTPBasicCredentials = Depends(security)
     except Exception as e:
         raise HTTPException(
             status_code=401,
-            detail="Incorrect email or password",
+            detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Basic"},
         )
 {% else %}
