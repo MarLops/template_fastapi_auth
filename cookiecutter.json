@@ -1,7 +1,7 @@
 {
-    "project_name":"Endpoints",
+    "project_name":"My_project",
     "version": ["1.0.0","0.1.0"],
-    "security":["Basic","JWT","No Auth"],
+    "security":["Basic","JWT"],
     "user": "admin",
     "email":"admin@admin",
     "full_name":"admin",

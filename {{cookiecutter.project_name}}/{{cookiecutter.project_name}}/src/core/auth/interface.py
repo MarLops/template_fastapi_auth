@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from .usermodel import User
+from .usermodel import FullUser
 
 class DBUser(ABC):
     @abstractmethod
@@ -7,5 +7,5 @@ class DBUser(ABC):
         ...
 
     @abstractmethod
-    def post(self,user: User):
+    def post(self,user: FullUser):
         ...
