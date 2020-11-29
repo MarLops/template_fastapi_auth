@@ -30,3 +30,17 @@ def test_add_user():
     db.post(new_user)
     user = db.get_user(name='test',password='test')
     assert user.username == new_user.username 
+
+
+def test_delete_user():
+    create_database_user("any path")
+    db = get_database_user()
+    new_user = FullUser(username="test",password="test")
+    db.post(new_user)
+    user = db.get_user(name='test',password='test')
+    assert user.username == new_user.username 
+    db.delete(user.username)
+    user = db.get_user(name='test',password='test')
+    assert user is None 
+
+
