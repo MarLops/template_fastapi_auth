@@ -1,7 +1,6 @@
 import os
 import json
 from pydantic.utils import truncate
-from .interface import DB
 from typing import Dict, Any
 from pydantic import BaseModel
 
@@ -9,7 +8,7 @@ class Data(BaseModel):
     id: str
     data: Dict[str,Any]
 
-class DB_Example(DB):
+class DB_Example():
     def __init__(self, path_db):
         self._path_db = path_db
         if os.path.exists(path_db):

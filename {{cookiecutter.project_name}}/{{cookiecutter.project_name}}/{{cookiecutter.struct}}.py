@@ -15,9 +15,13 @@ sub_app = APIRouter()
 sub_app = FastAPI()
 {% endif %}
 
-{% if cookiecutter.security != 'NO Auth'%}
+{% if cookiecutter.enable_default_database == "True"%}
 @sub_app.get("/")
 async def check_work(user = Depends(get_current_user), db = Depends(get_database)):
+    return "OK" 
+{% else%}
+@sub_app.get("/")
+async def check_work(user = Depends(get_current_user)):
     return "OK" 
 {% endif %}
 
