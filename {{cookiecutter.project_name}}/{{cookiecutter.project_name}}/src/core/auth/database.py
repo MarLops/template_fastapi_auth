@@ -51,7 +51,7 @@ class UserDatabase(DBUser):
             if os.path.exists(self._path):
                 with open(self._path, 'w') as myfile:
                     myfile.write(json.dumps(self._database))
-                    return True
+            return True
         raise ValueError("Don't exist user")
 
 
@@ -62,7 +62,7 @@ class UserDatabase(DBUser):
             if os.path.exists(self._path):
                 with open(self._path, 'w') as myfile:
                     myfile.write(json.dumps(self._database))
-                    return True
+            return True
         raise ValueError("Don't exist user")
         
 
