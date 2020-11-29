@@ -8,6 +8,7 @@ from .main import get_database_user
 config = configparser.ConfigParser()
 config.read('settings.ini')
 
+INCLUDE_SCHEME = {{cookiecutter.enable_auth_endpoints_in_swagger}}
 
 app_security = APIRouter()
 
@@ -69,15 +70,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
 {% endif %}
 
-@app_security.post("/user/add",description="Add new user")
+@app_security.post("/user",description="Add new user",include_in_schema=INCLUDE_SCHEME)
 async def add_user(new_user: FullUser, user = Depends(get_current_user),
                     database_user = Depends(get_database_user)):
     try:
         if user["permition"] == "admin":
             result = database_user.post(new_user)
-            if result:
-                return "Add"
-            return "Not Add"
+            
+            return result
+
         else:
             credentials_exception = HTTPException(
                 status_code=401,
@@ -85,8 +86,52 @@ async def add_user(new_user: FullUser, user = Depends(get_current_user),
             raise credentials_exception
     except Exception as e:
         credentials_exception = HTTPException(
-            status_code=401,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
+            status_code=500,
+            detail=str(e)
+        ) 
+        raise credentials_exception
+
+
+
+@app_security.delete("/user/{username}",description="Add new user",include_in_schema=INCLUDE_SCHEME)
+async def delete_user(username: str, user = Depends(get_current_user),
+                    database_user = Depends(get_database_user)):
+    try:
+        if username == user["username"]:
+            raise Exception("We cannot delete yourself")
+        if user["permition"] == "admin":
+            database_user.delete(username)
+            return "Delete"
+        else:
+            credentials_exception = HTTPException(
+                status_code=401,
+                detail="Only user with permition admin can add user")
+            raise credentials_exception
+    except Exception as e:
+        credentials_exception = HTTPException(
+            status_code=500,
+            detail=str(e)
+        ) 
+        raise credentials_exception
+
+
+@app_security.put("/user",description="Add new user",include_in_schema=INCLUDE_SCHEME)
+async def update_user(user_new: FullUser, user = Depends(get_current_user),
+                    database_user = Depends(get_database_user)):
+    try:
+        if user["username"] == user["username"] and user["permition"] != user["permition"]:
+            raise Exception("We cannot change your own permition")
+        if user["permition"] == "admin":
+            database_user.update(user_new)
+            return "Update"
+        else:
+            credentials_exception = HTTPException(
+                status_code=401,
+                detail="Only user with permition admin can add user")
+            raise credentials_exception
+    except Exception as e:
+        credentials_exception = HTTPException(
+            status_code=500,
+            detail=str(e)
         ) 
         raise credentials_exception

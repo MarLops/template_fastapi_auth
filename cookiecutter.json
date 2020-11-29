@@ -6,6 +6,7 @@
     "email":"admin@admin",
     "full_name":"admin",
     "password":"admin",
+    "enable_auth_endpoints_in_swagger": ["True","False"],
     "struct":["router","mount"],
     "name_tag_or_subendpoint":"subapi",
     "add_midware_time_in_logger": ["True","False"],

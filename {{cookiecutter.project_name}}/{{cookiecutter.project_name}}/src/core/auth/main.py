@@ -14,6 +14,13 @@ class DatabaseUserPersonal(DBUser):
         ...
 
 
+    def delete(self, user):
+        ...
+
+    def update(self, user: FullUser):
+        ...
+
+
 DB_USER = None
     
 def create_database_user(*arg,**kwargs):
