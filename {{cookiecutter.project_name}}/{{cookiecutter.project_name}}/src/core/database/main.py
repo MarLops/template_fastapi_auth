@@ -1,29 +1,23 @@
-
-from .interface import DB
-from .database import Data,DB_Example
+from .database import DB_Example
 
 
-class DB_Personate(DB):
-    def post(self,data: Data):
-       ...
+class DB():
+    ...
 
-    def get_by_key(self,key):
-       ...
 
-    def delete_by_key(self,key):
-        ...
-
-    def __iter__(self):
-        ...
-
-    def __del__(self):
-        ...
-
-  
 DB_app = None
 
+
+{% if cookiecutter.enable_default_database == "True"%}
 def create_database(*arg,**kwargs):
+    global DB_app
     DB_app = DB_Example(*arg)
+{% else%}
+def create_database(*arg,**kwargs):
+    global DB_app
+    DB_app = None
+
+{% endif%}
 
 def get_database():
     global DB_app

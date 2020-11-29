@@ -7,8 +7,9 @@
     "full_name":"admin",
     "password":"admin",
     "enable_auth_endpoints_in_swagger": ["True","False"],
+    "enable_default_database":["True","False"],
     "struct":["router","mount"],
-    "name_tag_or_subendpoint":"subapi",
+    "name_tag_or_subendpoint":"Database",
     "add_midware_time_in_logger": ["True","False"],
     "add_midware_header_in_looger": ["True","False"]
     
