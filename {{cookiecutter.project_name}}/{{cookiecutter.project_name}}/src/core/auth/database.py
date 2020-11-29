@@ -34,14 +34,36 @@ class UserDatabase(DBUser):
                                 permition=user["permition"])
         return None
 
-    
+
     def post(self,user: FullUser):
         user_dict = user.dict()
+        if user_dict["username"] in self._database:
+            raise ValueError("Already exist this username")
         self._database[user_dict["username"]] = user_dict
         if os.path.exists(self._path):
             with open(self._path, 'w') as myfile:
                myfile.write(json.dumps(self._database))
             return UserView(**user.dict())
+    
+    def delete(self, username):
+        if username in self._database:
+            self._database.pop(username)
+            if os.path.exists(self._path):
+                with open(self._path, 'w') as myfile:
+                    myfile.write(json.dumps(self._database))
+            return True
+        raise ValueError("Don't exist user")
+
+
+    def update(self, user: FullUser):
+        user_dict = user.dict()
+        if user_dict["username"] in self._database:
+            self._database[user_dict["username"]] = user_dict
+            if os.path.exists(self._path):
+                with open(self._path, 'w') as myfile:
+                    myfile.write(json.dumps(self._database))
+            return True
+        raise ValueError("Don't exist user")
         
 
         

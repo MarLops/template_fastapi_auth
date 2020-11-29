@@ -9,3 +9,11 @@ class DBUser(ABC):
     @abstractmethod
     def post(self,user: FullUser):
         ...
+
+    @abstractmethod
+    def delete(self, username):
+        ...
+
+    @abstractmethod
+    def update(self, user: FullUser):
+        ...
